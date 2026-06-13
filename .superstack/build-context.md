@@ -55,7 +55,7 @@ Integrate-first (no custom Anchor program):
     {
       "id": "phase-2-wallet",
       "name": "Wallet connect",
-      "status": "pending"
+      "status": "complete"
     },
     {
       "id": "phase-3-auth",

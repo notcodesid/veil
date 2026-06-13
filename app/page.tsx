@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import { WalletStatus } from "@/components/wallet/wallet-status";
 import { ConnectButton } from "@/components/wallet/connect-button";
 import { Button } from "@/components/ui/button";
 
@@ -19,6 +20,7 @@ export default function HomePage() {
           without mempool exposure, and unshield to Solana.
         </p>
       </div>
+      <WalletStatus />
       <div className="flex flex-wrap items-center justify-center gap-3">
         <Link href="/trade">
           <Button>Open Trade</Button>
