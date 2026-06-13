@@ -39,6 +39,9 @@ export async function getPrivateTokenBalance(args: {
     `${MAGICBLOCK_API}/v1/spl/private-balance?${params}`,
     { headers: { Authorization: `Bearer ${args.token}` } },
   );
+  if (res.status === 401) {
+    throw new Error("AUTH_EXPIRED");
+  }
   if (!res.ok) throw new Error(`Private balance failed: ${res.status}`);
   return res.json() as Promise<PrivateBalance>;
 }

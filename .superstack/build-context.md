@@ -60,7 +60,7 @@ Integrate-first (no custom Anchor program):
     {
       "id": "phase-3-auth",
       "name": "MagicBlock auth",
-      "status": "pending"
+      "status": "complete"
     },
     {
       "id": "phase-4-shield",

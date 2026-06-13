@@ -24,7 +24,7 @@ Copy `.env.example` → `.env.local`. All vars are `NEXT_PUBLIC_*`.
 
 ## Build phases
 
-See gitignored `docs/STEPS.md`. Phase 2 complete. Next: MagicBlock auth (Phase 3).
+See gitignored `docs/STEPS.md`. Phase 3 complete. Next: Shield flow (Phase 4).
 
 ## Rules
 
