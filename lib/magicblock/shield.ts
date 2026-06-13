@@ -31,6 +31,9 @@ export async function buildShieldTx(args: {
       idempotent: true,
     }),
   });
-  if (!res.ok) throw new Error(`Shield build failed: ${res.status}`);
+  if (!res.ok) {
+    const detail = await res.text();
+    throw new Error(`Shield build failed (${res.status}): ${detail}`);
+  }
   return res.json() as Promise<UnsignedTxResponse>;
 }

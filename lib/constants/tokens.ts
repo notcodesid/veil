@@ -27,7 +27,7 @@ export function toBaseUnits(amount: string, decimals: number): bigint {
 
 export function fromBaseUnits(amount: bigint | string, decimals: number): string {
   const raw = typeof amount === "bigint" ? amount.toString() : amount;
-  if (raw === "0") return "0";
+  if (raw === "0" || raw === "") return "0";
   const padded = raw.padStart(decimals + 1, "0");
   const whole = padded.slice(0, -decimals) || "0";
   const fraction = padded.slice(-decimals).replace(/0+$/, "");

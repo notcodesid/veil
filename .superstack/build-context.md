@@ -65,7 +65,7 @@ Integrate-first (no custom Anchor program):
     {
       "id": "phase-4-shield",
       "name": "Shield flow",
-      "status": "pending"
+      "status": "complete"
     },
     {
       "id": "phase-5-swap",

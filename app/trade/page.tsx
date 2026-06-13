@@ -1,3 +1,4 @@
+import { BalanceStrip } from "@/components/trade/balance-strip";
 import { ShieldForm } from "@/components/trade/shield-form";
 import { SwapForm } from "@/components/trade/swap-form";
 import { UnshieldForm } from "@/components/trade/unshield-form";
@@ -28,6 +29,7 @@ export default function TradePage() {
           <UnshieldForm />
         </TabsContent>
       </Tabs>
+      <BalanceStrip />
     </main>
   );
 }
