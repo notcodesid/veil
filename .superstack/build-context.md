@@ -75,7 +75,7 @@ Integrate-first (no custom Anchor program):
     {
       "id": "phase-6-unshield",
       "name": "Unshield flow",
-      "status": "pending"
+      "status": "complete"
     },
     {
       "id": "phase-7-portfolio",

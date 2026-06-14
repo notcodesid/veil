@@ -14,9 +14,14 @@ export async function buildUnshieldTx(args: {
       mint: args.mint,
       amount: args.amount,
       cluster: CLUSTER,
+      initIfMissing: true,
+      initAtasIfMissing: true,
       idempotent: true,
     }),
   });
-  if (!res.ok) throw new Error(`Unshield build failed: ${res.status}`);
+  if (!res.ok) {
+    const detail = await res.text();
+    throw new Error(`Unshield build failed (${res.status}): ${detail}`);
+  }
   return res.json() as Promise<UnsignedTxResponse>;
 }
