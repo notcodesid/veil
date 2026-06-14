@@ -81,6 +81,11 @@ Integrate-first (no custom Anchor program):
       "id": "phase-7-portfolio",
       "name": "Portfolio",
       "status": "complete"
+    },
+    {
+      "id": "phase-8-polish",
+      "name": "UI polish",
+      "status": "complete"
     }
   ]
 }

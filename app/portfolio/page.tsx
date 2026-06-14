@@ -67,7 +67,7 @@ export default function PortfolioPage() {
       {!connected ? (
         <Card className="veil-surface">
           <CardHeader>
-            <CardTitle>Connect wallet</CardTitle>
+            <CardTitle className="font-luckiest-guy text-xl sm:text-2xl uppercase tracking-wider">Connect wallet</CardTitle>
             <CardDescription>
               Connect your devnet wallet to view private balances.
             </CardDescription>
@@ -81,7 +81,7 @@ export default function PortfolioPage() {
       {connected && !isAuthenticated && !isAuthenticating ? (
         <Card className="veil-surface">
           <CardHeader>
-            <CardTitle>MagicBlock auth required</CardTitle>
+            <CardTitle className="font-luckiest-guy text-xl sm:text-2xl uppercase tracking-wider">MagicBlock auth required</CardTitle>
             <CardDescription>
               Sign the challenge to read shielded balances from the Private ER.
             </CardDescription>
@@ -112,7 +112,7 @@ export default function PortfolioPage() {
       {connected && isAuthenticated && lastTxSig ? (
         <Card className="veil-surface">
           <CardHeader>
-            <CardTitle className="text-base">Last transaction</CardTitle>
+            <CardTitle className="font-luckiest-guy text-base uppercase tracking-wide">Last transaction</CardTitle>
             <CardDescription>Most recent Veil action this session.</CardDescription>
           </CardHeader>
           <CardContent className="flex flex-wrap items-center gap-2">

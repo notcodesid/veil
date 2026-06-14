@@ -64,7 +64,7 @@ export function BalanceStrip() {
           usdc={publicBalances.USDC}
           sol={publicBalances.SOL}
         />
-        <div className="hidden w-px bg-border sm:block" />
+        <div className="hidden w-0.5 bg-black sm:block" />
         <BalanceCell
           label="Shielded"
           usdc={privateBalances.USDC}
@@ -73,7 +73,7 @@ export function BalanceStrip() {
         />
       </div>
       {!hasShielded ? (
-        <p className="mt-3 border-t border-zinc-200 pt-3 text-center text-xs font-semibold text-zinc-500">
+        <p className="mt-3 border-t-2 border-black pt-3 text-center text-xs font-semibold text-zinc-500">
           No shielded tokens yet — deposit on the Shield tab.
         </p>
       ) : null}

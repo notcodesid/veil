@@ -20,7 +20,7 @@ export function ShieldedBalances() {
     <Card className="veil-surface">
       <CardHeader className="flex flex-row items-start justify-between gap-4 space-y-0">
         <div>
-          <CardTitle>Shielded balances</CardTitle>
+          <CardTitle className="font-luckiest-guy text-2xl uppercase tracking-wider">Shielded balances</CardTitle>
           <CardDescription>
             Private ER holdings — hidden from public explorers.
           </CardDescription>
@@ -39,8 +39,8 @@ export function ShieldedBalances() {
         </Button>
       </CardHeader>
       <CardContent>
-        <div className="overflow-hidden rounded-lg border border-zinc-200">
-          <div className="grid grid-cols-3 gap-2 border-b border-zinc-200 bg-zinc-50 px-3 py-2 text-[10px] font-bold uppercase tracking-wider text-zinc-500">
+        <div className="overflow-hidden rounded-xl border-2 border-black">
+          <div className="grid grid-cols-3 gap-2 border-b-2 border-black bg-zinc-50 px-3 py-2.5 text-[10px] font-bold uppercase tracking-wider text-zinc-500">
             <span>Token</span>
             <span className="text-right">Shielded</span>
             <span className="text-right">Wallet</span>
@@ -48,7 +48,7 @@ export function ShieldedBalances() {
           {rows.map((row) => (
             <div
               key={row.symbol}
-              className="grid grid-cols-3 gap-2 border-b border-zinc-200 px-3 py-3 text-sm last:border-b-0 bg-white"
+              className="grid grid-cols-3 gap-2 border-b-2 border-black px-3 py-3.5 text-sm last:border-b-0 bg-white"
             >
               <span className="font-bold text-black">{row.symbol}</span>
               <span className="text-right font-mono font-bold text-emerald-600 tabular-nums">
