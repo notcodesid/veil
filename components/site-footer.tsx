@@ -27,14 +27,14 @@ export function SiteFooter() {
         {/* Right: Links */}
         <div className="flex items-center gap-3 font-luckiest-guy text-[10px] sm:text-xs uppercase tracking-wider text-black">
           <Link
-            href="#"
+            href="/privacy"
             className="hover:text-zinc-600 transition-colors"
           >
             Privacy Policy
           </Link>
           <span className="text-black font-sans font-bold">|</span>
           <Link
-            href="#"
+            href="/terms"
             className="hover:text-zinc-600 transition-colors"
           >
             Terms & Conditions
