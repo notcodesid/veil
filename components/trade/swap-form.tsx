@@ -146,7 +146,7 @@ export function SwapForm({ streamEnabled = true }: SwapFormProps) {
       });
 
       setAmount("");
-      await refresh();
+      await refresh({ force: true });
     } catch (err) {
       const message =
         err instanceof Error ? err.message : "Private swap failed";

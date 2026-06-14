@@ -11,6 +11,7 @@ import {
   sendAndConfirm,
 } from "@/lib/magicblock/tx";
 import { getBaseConnection } from "@/lib/solana/connection";
+import { persistLastTxSig } from "@/lib/veil/session";
 
 export function useVeilTx() {
   const wallet = useWallet();
@@ -38,6 +39,7 @@ export function useVeilTx() {
         const connection = new Connection(rpc, "confirmed");
         const sig = await sendAndConfirm(connection, signed);
         setLastSig(sig);
+        persistLastTxSig(sig);
         return sig;
       } catch (err) {
         const message =
@@ -67,6 +69,7 @@ export function useVeilTx() {
         const connection = getBaseConnection();
         const sig = await sendAndConfirm(connection, signed);
         setLastSig(sig);
+        persistLastTxSig(sig);
         return sig;
       } catch (err) {
         const message =

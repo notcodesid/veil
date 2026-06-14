@@ -1,23 +1,6 @@
-import { PublicKey } from "@solana/web3.js";
-
 import { CLUSTER, MAGICBLOCK_API } from "@/lib/magicblock/config";
-import { getBaseConnection } from "@/lib/solana/connection";
 
-export async function getPublicTokenBalance(
-  owner: string,
-  mint: string,
-): Promise<string> {
-  const connection = getBaseConnection();
-  const accounts = await connection.getParsedTokenAccountsByOwner(
-    new PublicKey(owner),
-    { mint: new PublicKey(mint) },
-  );
-  const balance = accounts.value[0]?.account.data.parsed.info.tokenAmount
-    .amount as string | undefined;
-  return balance ?? "0";
-}
-
-export type PrivateBalance = {
+export type TokenBalance = {
   address: string;
   mint: string;
   ata: string;
@@ -25,23 +8,48 @@ export type PrivateBalance = {
   balance: string;
 };
 
+async function fetchTokenBalance(
+  address: string,
+  mint: string,
+  authToken?: string,
+): Promise<TokenBalance> {
+  const params = new URLSearchParams({
+    address,
+    mint,
+    cluster: CLUSTER,
+  });
+  const headers: HeadersInit = {};
+  if (authToken) {
+    headers.Authorization = `Bearer ${authToken}`;
+  }
+
+  const path = authToken ? "/v1/spl/private-balance" : "/v1/spl/balance";
+  const res = await fetch(`${MAGICBLOCK_API}${path}?${params}`, { headers });
+
+  if (authToken && res.status === 401) {
+    throw new Error("AUTH_EXPIRED");
+  }
+  if (!res.ok) {
+    throw new Error(`Balance failed (${res.status})`);
+  }
+  return res.json() as Promise<TokenBalance>;
+}
+
+/** Public wallet balance via MagicBlock (avoids browser RPC rate limits). */
+export async function getPublicTokenBalance(
+  owner: string,
+  mint: string,
+): Promise<string> {
+  const data = await fetchTokenBalance(owner, mint);
+  return data.balance;
+}
+
+export type PrivateBalance = TokenBalance;
+
 export async function getPrivateTokenBalance(args: {
   address: string;
   mint: string;
   token: string;
 }): Promise<PrivateBalance> {
-  const params = new URLSearchParams({
-    address: args.address,
-    mint: args.mint,
-    cluster: CLUSTER,
-  });
-  const res = await fetch(
-    `${MAGICBLOCK_API}/v1/spl/private-balance?${params}`,
-    { headers: { Authorization: `Bearer ${args.token}` } },
-  );
-  if (res.status === 401) {
-    throw new Error("AUTH_EXPIRED");
-  }
-  if (!res.ok) throw new Error(`Private balance failed: ${res.status}`);
-  return res.json() as Promise<PrivateBalance>;
+  return fetchTokenBalance(args.address, args.mint, args.token);
 }

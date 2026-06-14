@@ -78,7 +78,7 @@ export function UnshieldForm() {
       });
 
       setAmount("");
-      await refresh();
+      await refresh({ force: true });
     } catch (err) {
       const message =
         err instanceof Error ? err.message : "Unshield transaction failed";

@@ -74,7 +74,7 @@ export function ShieldForm() {
       });
 
       setAmount("");
-      await refresh();
+      await refresh({ force: true });
     } catch (err) {
       const message =
         err instanceof Error ? err.message : "Shield transaction failed";

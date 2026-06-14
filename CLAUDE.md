@@ -24,7 +24,7 @@ Copy `.env.example` → `.env.local`. All vars are `NEXT_PUBLIC_*`.
 
 ## Build phases
 
-See gitignored `docs/STEPS.md`. Phase 6 complete. Next: portfolio page (Phase 7).
+See gitignored `docs/STEPS.md`. Phase 7 complete. Next: UI polish (Phase 8).
 
 ## Rules
 

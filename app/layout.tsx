@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 
 import { SiteHeader } from "@/components/site-header";
 import { Toaster } from "@/components/ui/sonner";
+import { BalancesProvider } from "@/providers/balances-provider";
 import { MagicBlockAuthProvider } from "@/providers/magicblock-auth-provider";
 import { WalletProvider } from "@/providers/wallet-provider";
 
@@ -37,9 +38,11 @@ export default function RootLayout({
       <body className="min-h-full flex flex-col">
         <WalletProvider>
           <MagicBlockAuthProvider>
-            <SiteHeader />
-            {children}
-            <Toaster />
+            <BalancesProvider>
+              <SiteHeader />
+              {children}
+              <Toaster />
+            </BalancesProvider>
           </MagicBlockAuthProvider>
         </WalletProvider>
       </body>

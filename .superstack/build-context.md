@@ -80,7 +80,7 @@ Integrate-first (no custom Anchor program):
     {
       "id": "phase-7-portfolio",
       "name": "Portfolio",
-      "status": "pending"
+      "status": "complete"
     }
   ]
 }
