@@ -41,22 +41,17 @@ export default function HomePage() {
             Private DEX · Devnet
           </p>
           <h1 className="font-luckiest-guy text-4xl sm:text-6xl md:text-7xl tracking-wider text-white uppercase drop-shadow-[4px_4px_0px_rgba(0,0,0,1)] select-none leading-none">
-            VEIL&apos;s ON SOLANA!
+            Trade Privately on Solana
           </h1>
-          <p className="font-luckiest-guy text-sm sm:text-lg uppercase tracking-widest text-emerald-300 drop-shadow-[1.5px_1.5px_0px_rgba(0,0,0,1)] max-w-xl mx-auto leading-relaxed">
-            VEIL leaps to the moon with private execution & Solana speed!
+          <p className="font-luckiest-guy text-sm sm:text-lg uppercase tracking-widest text-emerald-300 drop-shadow-[1.5px_1.5px_0px_rgba(0,0,0,1)] max-w-2xl mx-auto leading-relaxed">
+            Shield assets, execute swaps privately, and settle natively on Solana using MagicBlock Ephemeral Rollups.
           </p>
           
           {/* Action Buttons */}
           <div className="flex flex-wrap items-center justify-center gap-4 mt-6">
             <Link href="/trade">
               <button className="h-14 px-8 bg-yellow-300 text-black border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:bg-yellow-400 active:translate-y-px active:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] font-luckiest-guy text-lg uppercase tracking-wider rounded-xl transition-all cursor-pointer">
-                Trade Now
-              </button>
-            </Link>
-            <Link href="/portfolio">
-              <button className="h-14 px-8 bg-white text-black border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:bg-zinc-100 active:translate-y-px active:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] font-luckiest-guy text-lg uppercase tracking-wider rounded-xl transition-all cursor-pointer">
-                My Portfolio
+                Start Trading
               </button>
             </Link>
           </div>
@@ -124,27 +119,119 @@ export default function HomePage() {
         </div>
 
         <div className="relative mx-auto max-w-5xl flex flex-col md:flex-row items-center justify-center gap-10 md:gap-16 z-20">
-          {/* Left: Pepe Image */}
-          <div className="w-full md:w-1/2 flex justify-center md:justify-end">
-            <img 
-              src="/about.jpg" 
-              alt="Veil Pepe" 
-              className="w-full max-w-[260px] sm:max-w-[360px] md:max-w-[420px] object-contain drop-shadow-[4px_4px_0px_rgba(0,0,0,0.15)]" 
-            />
+          {/* Left: Architecture Flow Diagram */}
+          <div className="w-full md:w-1/2 flex justify-center">
+            <div className="w-full max-w-md bg-white border-4 border-black p-6 rounded-3xl shadow-[8px_8px_0px_rgba(0,0,0,1)] text-black space-y-4">
+              <h3 className="font-luckiest-guy text-xl text-center uppercase tracking-wide border-b-2 border-black pb-2">
+                Veil Transaction Flow
+              </h3>
+              
+              <div className="flex flex-col items-center space-y-3">
+                {/* Step 1: Shield */}
+                <div className="w-full flex items-center justify-between border-2 border-black p-3 bg-amber-200 rounded-xl shadow-[3px_3px_0px_rgba(0,0,0,1)]">
+                  <div className="flex items-center gap-2">
+                    <span className="font-luckiest-guy text-lg bg-white border border-black rounded-full size-6 flex items-center justify-center leading-none pt-0.5">1</span>
+                    <span className="font-luckiest-guy text-sm uppercase tracking-wider">Shield Tokens</span>
+                  </div>
+                  <span className="text-[10px] font-bold text-zinc-700 bg-white/60 px-2 py-0.5 rounded border border-black">Solana L1 → Rollup</span>
+                </div>
+
+                {/* Connecting Arrow 1 */}
+                <div className="flex flex-col items-center">
+                  <svg className="w-5 h-6 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+                  </svg>
+                </div>
+
+                {/* Step 2: Swap */}
+                <div className="w-full flex items-center justify-between border-2 border-black p-3 bg-emerald-200 rounded-xl shadow-[3px_3px_0px_rgba(0,0,0,1)]">
+                  <div className="flex items-center gap-2">
+                    <span className="font-luckiest-guy text-lg bg-white border border-black rounded-full size-6 flex items-center justify-center leading-none pt-0.5">2</span>
+                    <span className="font-luckiest-guy text-sm uppercase tracking-wider">Private Swap</span>
+                  </div>
+                  <span className="text-[10px] font-bold text-zinc-700 bg-white/60 px-2 py-0.5 rounded border border-black">Hidden Order Flow</span>
+                </div>
+
+                {/* Connecting Arrow 2 */}
+                <div className="flex flex-col items-center">
+                  <svg className="w-5 h-6 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+                  </svg>
+                </div>
+
+                {/* Step 3: Unshield */}
+                <div className="w-full flex items-center justify-between border-2 border-black p-3 bg-fuchsia-200 rounded-xl shadow-[3px_3px_0px_rgba(0,0,0,1)]">
+                  <div className="flex items-center gap-2">
+                    <span className="font-luckiest-guy text-lg bg-white border border-black rounded-full size-6 flex items-center justify-center leading-none pt-0.5">3</span>
+                    <span className="font-luckiest-guy text-sm uppercase tracking-wider">Unshield &amp; Settle</span>
+                  </div>
+                  <span className="text-[10px] font-bold text-zinc-700 bg-white/60 px-2 py-0.5 rounded border border-black">Rollup → Solana L1</span>
+                </div>
+              </div>
+            </div>
           </div>
 
           {/* Right: Text Content */}
           <div className="flex-1 text-center md:text-left space-y-6 max-w-xl">
             <h2 className="font-luckiest-guy text-5xl sm:text-6xl uppercase tracking-wider text-white drop-shadow-[3px_3px_0px_rgba(0,0,0,1)] leading-none select-none">
-              ABOUT VEIL
+              WHY VEIL?
             </h2>
-            <p className="text-lg sm:text-xl font-medium leading-relaxed text-white max-w-lg">
-              VEIL is the ultimate private execution layer, bringing zero-knowledge privacy to Solana with speed, security, and developer-friendly rollups.
-            </p>
+
+            {/* 4 Bullets describing Why Veil */}
+            <div className="space-y-4 max-w-lg">
+              <div className="flex items-start gap-3.5 text-left bg-black/15 p-4 rounded-2xl border border-white/10">
+                <span className="text-2xl select-none">🔒</span>
+                <div>
+                  <h4 className="font-luckiest-guy text-lg uppercase tracking-wider text-yellow-300">
+                    Private Execution
+                  </h4>
+                  <p className="text-sm sm:text-base font-semibold leading-relaxed text-zinc-100 mt-0.5">
+                    Trades execute inside MagicBlock Ephemeral Rollups before being revealed on-chain.
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-3.5 text-left bg-black/15 p-4 rounded-2xl border border-white/10">
+                <span className="text-2xl select-none">⚡</span>
+                <div>
+                  <h4 className="font-luckiest-guy text-lg uppercase tracking-wider text-yellow-300">
+                    No Sandwich Attacks
+                  </h4>
+                  <p className="text-sm sm:text-base font-semibold leading-relaxed text-zinc-100 mt-0.5">
+                    Hidden order flow prevents bots from front-running or sandwiching your swaps.
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-3.5 text-left bg-black/15 p-4 rounded-2xl border border-white/10">
+                <span className="text-2xl select-none">🌊</span>
+                <div>
+                  <h4 className="font-luckiest-guy text-lg uppercase tracking-wider text-yellow-300">
+                    Native Solana Settlement
+                  </h4>
+                  <p className="text-sm sm:text-base font-semibold leading-relaxed text-zinc-100 mt-0.5">
+                    Assets settle directly back to Solana with no bridges or wrapped tokens.
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-3.5 text-left bg-black/15 p-4 rounded-2xl border border-white/10">
+                <span className="text-2xl select-none">✨</span>
+                <div>
+                  <h4 className="font-luckiest-guy text-lg uppercase tracking-wider text-yellow-300">
+                    Powered by MagicBlock
+                  </h4>
+                  <p className="text-sm sm:text-base font-semibold leading-relaxed text-zinc-100 mt-0.5">
+                    Leverages high-speed Ephemeral Rollups for instant private confirmation and L1 consensus.
+                  </p>
+                </div>
+              </div>
+            </div>
+
             <div className="pt-2 flex justify-center md:justify-start">
               <Link href="/trade">
                 <button className="h-14 px-8 bg-white text-black border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:bg-zinc-50 active:translate-y-px active:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] font-luckiest-guy text-lg uppercase tracking-wider rounded-xl transition-all cursor-pointer">
-                  Get Veil Now
+                  Start Trading
                 </button>
               </Link>
             </div>
