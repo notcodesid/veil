@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Luckiest_Guy } from "next/font/google";
 
+import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { Toaster } from "@/components/ui/sonner";
 import { BalancesProvider } from "@/providers/balances-provider";
@@ -19,6 +20,12 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const luckiestGuy = Luckiest_Guy({
+  variable: "--font-luckiest-guy",
+  weight: "400",
+  subsets: ["latin"],
+});
+
 export const metadata: Metadata = {
   title: "Veil — Private DEX",
   description:
@@ -33,15 +40,16 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${geistSans.variable} ${geistMono.variable} ${luckiestGuy.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">
+      <body className="flex min-h-full flex-col">
         <WalletProvider>
           <MagicBlockAuthProvider>
             <BalancesProvider>
               <SiteHeader />
-              {children}
-              <Toaster />
+              <div className="flex flex-1 flex-col">{children}</div>
+              <SiteFooter />
+              <Toaster richColors closeButton position="bottom-right" />
             </BalancesProvider>
           </MagicBlockAuthProvider>
         </WalletProvider>

@@ -17,7 +17,7 @@ export function ShieldedBalances() {
   const { rows, hasShielded, isLoading, refresh } = usePrivateBalances();
 
   return (
-    <Card>
+    <Card className="veil-surface">
       <CardHeader className="flex flex-row items-start justify-between gap-4 space-y-0">
         <div>
           <CardTitle>Shielded balances</CardTitle>
@@ -39,8 +39,8 @@ export function ShieldedBalances() {
         </Button>
       </CardHeader>
       <CardContent>
-        <div className="overflow-hidden rounded-lg border border-border">
-          <div className="grid grid-cols-3 gap-2 border-b border-border bg-muted/40 px-3 py-2 text-xs font-medium text-muted-foreground">
+        <div className="overflow-hidden rounded-lg border border-zinc-200">
+          <div className="grid grid-cols-3 gap-2 border-b border-zinc-200 bg-zinc-50 px-3 py-2 text-[10px] font-bold uppercase tracking-wider text-zinc-500">
             <span>Token</span>
             <span className="text-right">Shielded</span>
             <span className="text-right">Wallet</span>
@@ -48,13 +48,13 @@ export function ShieldedBalances() {
           {rows.map((row) => (
             <div
               key={row.symbol}
-              className="grid grid-cols-3 gap-2 border-b border-border px-3 py-3 text-sm last:border-b-0"
+              className="grid grid-cols-3 gap-2 border-b border-zinc-200 px-3 py-3 text-sm last:border-b-0 bg-white"
             >
-              <span className="font-medium">{row.symbol}</span>
-              <span className="text-right font-mono tabular-nums">
+              <span className="font-bold text-black">{row.symbol}</span>
+              <span className="text-right font-mono font-bold text-emerald-600 tabular-nums">
                 {isLoading ? "…" : row.shielded}
               </span>
-              <span className="text-right font-mono tabular-nums text-muted-foreground">
+              <span className="text-right font-mono font-medium text-zinc-500 tabular-nums">
                 {isLoading ? "…" : row.wallet}
               </span>
             </div>
@@ -62,9 +62,9 @@ export function ShieldedBalances() {
         </div>
 
         {!isLoading && !hasShielded ? (
-          <p className="mt-4 text-sm text-muted-foreground">
+          <p className="mt-4 text-sm font-semibold text-zinc-700">
             No shielded tokens yet.{" "}
-            <Link href="/trade" className="text-foreground underline">
+            <Link href="/trade" className="text-black font-bold underline decoration-2 hover:text-zinc-700">
               Shield on Trade
             </Link>
           </p>

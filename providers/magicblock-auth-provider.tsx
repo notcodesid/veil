@@ -41,10 +41,7 @@ export function MagicBlockAuthProvider({
   const [isAuthenticating, setIsAuthenticating] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const authAttempted = useRef<string | null>(null);
-
-  useEffect(() => {
-    setToken(getStoredToken());
-  }, []);
+  const wasConnected = useRef(false);
 
   const clearAuth = useCallback(() => {
     clearStoredToken();
@@ -89,17 +86,23 @@ export function MagicBlockAuthProvider({
 
   useEffect(() => {
     if (!connected || !publicKey) {
-      clearAuth();
+      if (wasConnected.current) {
+        clearAuth();
+      }
+      wasConnected.current = false;
       return;
     }
 
+    wasConnected.current = true;
     const address = publicKey.toBase58();
-    const existing = getStoredToken();
+    const existing = getStoredToken(address);
     if (existing) {
       setToken(existing);
+      authAttempted.current = address;
       return;
     }
 
+    setToken(null);
     if (!signMessage) return;
     if (authAttempted.current === address) return;
 

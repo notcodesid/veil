@@ -3,6 +3,7 @@ import bs58 from "bs58";
 import { CLUSTER, MAGICBLOCK_API } from "@/lib/magicblock/config";
 
 const TOKEN_KEY = "veil:magicblock:token";
+const PUBKEY_KEY = "veil:magicblock:pubkey";
 
 export class MagicBlockAuthError extends Error {
   constructor(
@@ -55,21 +56,27 @@ export async function authenticateWallet(args: {
   const signatureBytes = await args.signMessage(message);
   const signature = bs58.encode(signatureBytes);
   const token = await login(args.publicKey, challenge, signature);
-  setStoredToken(token);
+  setStoredToken(token, args.publicKey);
   return token;
 }
 
-export function getStoredToken(): string | null {
+export function getStoredToken(pubkey?: string): string | null {
   if (typeof window === "undefined") return null;
-  return sessionStorage.getItem(TOKEN_KEY);
+  const token = localStorage.getItem(TOKEN_KEY);
+  const storedPubkey = localStorage.getItem(PUBKEY_KEY);
+  if (!token || !storedPubkey) return null;
+  if (pubkey && storedPubkey !== pubkey) return null;
+  return token;
 }
 
-export function setStoredToken(token: string): void {
-  sessionStorage.setItem(TOKEN_KEY, token);
+export function setStoredToken(token: string, pubkey: string): void {
+  localStorage.setItem(TOKEN_KEY, token);
+  localStorage.setItem(PUBKEY_KEY, pubkey);
 }
 
 export function clearStoredToken(): void {
-  sessionStorage.removeItem(TOKEN_KEY);
+  localStorage.removeItem(TOKEN_KEY);
+  localStorage.removeItem(PUBKEY_KEY);
 }
 
 export function getAuthHeader(): Record<string, string> | undefined {

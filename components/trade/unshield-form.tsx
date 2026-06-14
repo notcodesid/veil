@@ -5,6 +5,7 @@ import { useWallet } from "@solana/wallet-adapter-react";
 import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
+import { PendingLabel } from "@/components/ui/pending-label";
 import {
   Card,
   CardContent,
@@ -95,10 +96,10 @@ export function UnshieldForm() {
   }
 
   return (
-    <Card>
+    <Card className="veil-surface">
       <CardHeader>
-        <CardTitle>Unshield</CardTitle>
-        <CardDescription>
+        <CardTitle className="font-luckiest-guy text-2xl uppercase tracking-wider">Unshield</CardTitle>
+        <CardDescription className="font-semibold text-zinc-500">
           Withdraw {token} from the Private ER back to your wallet.
         </CardDescription>
       </CardHeader>
@@ -118,7 +119,7 @@ export function UnshieldForm() {
         </div>
 
         <div className="space-y-2">
-          <label htmlFor="unshield-amount" className="text-sm font-medium">
+          <label htmlFor="unshield-amount" className="font-luckiest-guy text-sm uppercase tracking-wider text-zinc-400">
             Amount
           </label>
           <div className="flex gap-2">
@@ -144,23 +145,23 @@ export function UnshieldForm() {
           </div>
         </div>
 
-        <div className="rounded-lg border border-border bg-muted/40 p-3 text-sm">
+        <div className="rounded-xl border-2 border-black bg-zinc-50 p-4 text-sm font-semibold">
           <div className="flex justify-between">
-            <span className="text-muted-foreground">Shielded balance</span>
-            <span>
+            <span className="text-zinc-500">Shielded balance</span>
+            <span className="text-emerald-600 font-bold">
               {isLoading ? "…" : `${shieldedBalance} ${token}`}
             </span>
           </div>
           <div className="mt-2 flex justify-between">
-            <span className="text-muted-foreground">Wallet balance</span>
-            <span>
+            <span className="text-zinc-500">Wallet balance</span>
+            <span className="text-black font-bold">
               {isLoading ? "…" : `${walletBalance} ${token}`}
             </span>
           </div>
         </div>
 
         {!isAuthenticated && connected ? (
-          <p className="text-xs text-muted-foreground">
+          <p className="text-xs font-semibold text-red-500">
             Complete MagicBlock auth to view shielded balances and unshield.
           </p>
         ) : null}
@@ -173,7 +174,11 @@ export function UnshieldForm() {
             !connected || !isAuthenticated || isPending || !amount
           }
         >
-          {isPending ? "Unshielding…" : `Unshield ${token}`}
+          <PendingLabel
+            pending={isPending}
+            pendingText="Unshielding…"
+            idleText={`Unshield ${token}`}
+          />
         </Button>
       </CardContent>
     </Card>

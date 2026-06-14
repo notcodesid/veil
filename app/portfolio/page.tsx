@@ -54,19 +54,18 @@ export default function PortfolioPage() {
   );
 
   return (
-    <main className="mx-auto flex w-full max-w-lg flex-1 flex-col gap-6 p-6">
-      <div className="flex items-start justify-between gap-4">
-        <div>
-          <h1 className="text-2xl font-semibold tracking-tight">Portfolio</h1>
-          <p className="text-sm text-muted-foreground">
+    <main className="mx-auto flex w-full max-w-lg flex-1 flex-col gap-5 px-4 pt-28 pb-10 sm:gap-6 sm:px-6">
+      <div className="flex items-center justify-between gap-4">
+        <div className="space-y-1">
+          <h1 className="font-luckiest-guy text-4xl sm:text-5xl uppercase tracking-wider text-white drop-shadow-[3px_3px_0px_rgba(0,0,0,1)]">Portfolio</h1>
+          <p className="font-bold text-zinc-100 drop-shadow-[1px_1px_0px_rgba(0,0,0,0.4)]">
             Hidden shielded balances inside Veil.
           </p>
         </div>
-        <ConnectButton />
       </div>
 
       {!connected ? (
-        <Card>
+        <Card className="veil-surface">
           <CardHeader>
             <CardTitle>Connect wallet</CardTitle>
             <CardDescription>
@@ -80,7 +79,7 @@ export default function PortfolioPage() {
       ) : null}
 
       {connected && !isAuthenticated && !isAuthenticating ? (
-        <Card>
+        <Card className="veil-surface">
           <CardHeader>
             <CardTitle>MagicBlock auth required</CardTitle>
             <CardDescription>
@@ -94,7 +93,7 @@ export default function PortfolioPage() {
       ) : null}
 
       {connected && isAuthenticating ? (
-        <Card>
+        <Card className="veil-surface">
           <CardContent className="py-6 text-sm text-muted-foreground">
             Authenticating with MagicBlock…
           </CardContent>
@@ -103,15 +102,15 @@ export default function PortfolioPage() {
 
       {connected && isAuthenticated ? (
         <>
-          <p className="text-xs text-muted-foreground">
+          <div className="bg-white border-2 border-black px-3 py-1.5 rounded-full text-black font-luckiest-guy uppercase text-xs shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] max-w-fit hover:-rotate-1 active:translate-y-px transition-all">
             Devnet · {publicKey ? truncateAddress(publicKey, 6) : ""}
-          </p>
+          </div>
           <ShieldedBalances />
         </>
       ) : null}
 
       {connected && isAuthenticated && lastTxSig ? (
-        <Card>
+        <Card className="veil-surface">
           <CardHeader>
             <CardTitle className="text-base">Last transaction</CardTitle>
             <CardDescription>Most recent Veil action this session.</CardDescription>

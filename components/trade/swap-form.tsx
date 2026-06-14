@@ -6,6 +6,7 @@ import { ArrowLeftRight } from "lucide-react";
 import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
+import { PendingLabel } from "@/components/ui/pending-label";
 import {
   Card,
   CardContent,
@@ -159,16 +160,16 @@ export function SwapForm({ streamEnabled = true }: SwapFormProps) {
   }
 
   return (
-    <Card>
+    <Card className="veil-surface">
       <CardHeader>
-        <CardTitle>Swap</CardTitle>
-        <CardDescription>
+        <CardTitle className="font-luckiest-guy text-2xl uppercase tracking-wider">Swap</CardTitle>
+        <CardDescription className="font-semibold text-zinc-500">
           Live quotes with private execution (`visibility: private`).
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
         {devnetSwapHint ? (
-          <p className="rounded-lg border border-amber-500/30 bg-amber-500/10 px-3 py-2 text-xs text-amber-100/90">
+          <p className="rounded-xl border-2 border-black bg-amber-100 px-3 py-2.5 text-xs font-semibold text-amber-900 shadow-[1.5px_1.5px_0px_0px_rgba(0,0,0,1)]">
             {devnetSwapHint}
           </p>
         ) : null}
@@ -215,7 +216,7 @@ export function SwapForm({ streamEnabled = true }: SwapFormProps) {
         </div>
 
         <div className="space-y-2">
-          <label htmlFor="swap-amount" className="text-sm font-medium">
+          <label htmlFor="swap-amount" className="font-luckiest-guy text-sm uppercase tracking-wider text-zinc-400">
             From amount ({inputToken})
           </label>
           <div className="flex gap-2">
@@ -237,42 +238,42 @@ export function SwapForm({ streamEnabled = true }: SwapFormProps) {
               Max
             </Button>
           </div>
-          <p className="text-xs text-muted-foreground">
+          <p className="text-xs font-semibold text-zinc-500">
             Wallet: {publicBalances[inputToken]} {inputToken} · Shielded:{" "}
             {privateBalances[inputToken]} {inputToken}
           </p>
         </div>
 
-        <div className="rounded-lg border border-border bg-muted/40 p-3 text-sm font-mono tabular-nums">
+        <div className="rounded-xl border-2 border-black bg-zinc-50 p-4 text-sm font-semibold">
           <div className="flex justify-between gap-4">
-            <span className="text-muted-foreground">Rate</span>
-            <span className="text-right">
+            <span className="text-zinc-500">Rate</span>
+            <span className="text-right text-black font-bold">
               {isLoading && !rateLabel
                 ? "Updating…"
                 : (rateLabel ?? "Enter an amount")}
             </span>
           </div>
           <div className="mt-2 flex justify-between gap-4">
-            <span className="text-muted-foreground">Estimated output</span>
-            <span className="text-right">
+            <span className="text-zinc-500">Estimated output</span>
+            <span className="text-right text-black font-bold">
               {estimatedOut ? `${estimatedOut} ${outputToken}` : "--"}
             </span>
           </div>
           {quote ? (
             <div className="mt-2 flex justify-between gap-4">
-              <span className="text-muted-foreground">Price impact</span>
-              <span className="text-right">
+              <span className="text-zinc-500">Price impact</span>
+              <span className="text-right text-black font-bold">
                 {formatPercent(quote.priceImpactPct)}
               </span>
             </div>
           ) : null}
           {secondsAgo !== null ? (
-            <p className="mt-2 text-xs text-muted-foreground">
+            <p className="mt-2 text-xs font-semibold text-zinc-400">
               Updated {secondsAgo}s ago{isStale ? " · stale" : ""}
             </p>
           ) : null}
           {quoteError ? (
-            <p className="mt-2 text-xs text-destructive">{quoteError}</p>
+            <p className="mt-2 text-xs font-bold text-red-500">{quoteError}</p>
           ) : null}
         </div>
 
@@ -289,7 +290,11 @@ export function SwapForm({ streamEnabled = true }: SwapFormProps) {
             !inputSwapAllowed
           }
         >
-          {isPending ? "Swapping…" : `Execute Private Swap`}
+          <PendingLabel
+            pending={isPending}
+            pendingText="Swapping…"
+            idleText="Execute Private Swap"
+          />
         </Button>
       </CardContent>
     </Card>
