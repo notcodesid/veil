@@ -1,5 +1,18 @@
 import { MAGICBLOCK_API } from "@/lib/magicblock/config";
 
+function formatSwapApiError(status: number, detail: string, action: string): string {
+  try {
+    const body = JSON.parse(detail) as { error?: string; errorCode?: string };
+    if (body.errorCode === "TOKEN_NOT_TRADABLE") {
+      return "Devnet USDC is not tradable on Jupiter. Swap from SOL instead.";
+    }
+    if (body.error) return `${action} failed: ${body.error}`;
+  } catch {
+    // keep fallback below
+  }
+  return `${action} failed (${status}): ${detail}`;
+}
+
 export type SwapQuote = {
   inputMint: string;
   inAmount: string;
@@ -25,7 +38,10 @@ export async function getSwapQuote(args: {
     slippageBps: String(args.slippageBps ?? 50),
   });
   const res = await fetch(`${MAGICBLOCK_API}/v1/swap/quote?${params}`);
-  if (!res.ok) throw new Error(`Quote failed: ${res.status}`);
+  if (!res.ok) {
+    const detail = await res.text();
+    throw new Error(formatSwapApiError(res.status, detail, "Quote"));
+  }
   return res.json() as Promise<SwapQuote>;
 }
 
@@ -57,6 +73,9 @@ export async function buildPrivateSwap(args: {
       wrapAndUnwrapSol: true,
     }),
   });
-  if (!res.ok) throw new Error(`Private swap build failed: ${res.status}`);
+  if (!res.ok) {
+    const detail = await res.text();
+    throw new Error(formatSwapApiError(res.status, detail, "Private swap build"));
+  }
   return res.json() as Promise<PrivateSwapResponse>;
 }

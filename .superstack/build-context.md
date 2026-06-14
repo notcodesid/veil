@@ -70,7 +70,7 @@ Integrate-first (no custom Anchor program):
     {
       "id": "phase-5-swap",
       "name": "Price stream + swap",
-      "status": "pending"
+      "status": "complete"
     },
     {
       "id": "phase-6-unshield",

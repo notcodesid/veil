@@ -1,3 +1,7 @@
+"use client";
+
+import { useState } from "react";
+
 import { BalanceStrip } from "@/components/trade/balance-strip";
 import { ShieldForm } from "@/components/trade/shield-form";
 import { SwapForm } from "@/components/trade/swap-form";
@@ -5,6 +9,8 @@ import { UnshieldForm } from "@/components/trade/unshield-form";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export default function TradePage() {
+  const [tab, setTab] = useState("shield");
+
   return (
     <main className="mx-auto flex w-full max-w-lg flex-1 flex-col gap-6 p-6">
       <div>
@@ -13,7 +19,7 @@ export default function TradePage() {
           Shield, swap, and unshield SPL tokens privately.
         </p>
       </div>
-      <Tabs defaultValue="shield">
+      <Tabs value={tab} onValueChange={setTab}>
         <TabsList className="grid w-full grid-cols-3">
           <TabsTrigger value="shield">Shield</TabsTrigger>
           <TabsTrigger value="swap">Swap</TabsTrigger>
@@ -23,7 +29,7 @@ export default function TradePage() {
           <ShieldForm />
         </TabsContent>
         <TabsContent value="swap">
-          <SwapForm />
+          <SwapForm streamEnabled={tab === "swap"} />
         </TabsContent>
         <TabsContent value="unshield">
           <UnshieldForm />

@@ -1,8 +1,19 @@
 export type CanonicalSymbol = "SOL" | "USDC";
 
+/** Circle devnet faucet USDC — shield/deposit only, not Jupiter-tradable. */
+export const DEVNET_USDC_MINT =
+  "4zMMC9srt5Ri5X14GAgXhaHii3GnPAEERYPJgZJDncDU";
+
+/** Mainnet USDC — used by MagicBlock `/v1/swap/*` (Jupiter routes). */
+export const JUPITER_USDC_MINT =
+  "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v";
+
 export type CanonicalToken = {
   symbol: CanonicalSymbol;
+  /** Wallet + shield mint on the active cluster (devnet USDC for deposits). */
   mint: string;
+  /** Mint passed to Jupiter quote/swap APIs. */
+  swapMint: string;
   decimals: number;
 };
 
@@ -10,14 +21,36 @@ export const TOKENS: Record<CanonicalSymbol, CanonicalToken> = {
   SOL: {
     symbol: "SOL",
     mint: "So11111111111111111111111111111111111111112",
+    swapMint: "So11111111111111111111111111111111111111112",
     decimals: 9,
   },
   USDC: {
     symbol: "USDC",
-    mint: "4zMMC9srt5Ri5X14GAgXhaHii3GnPAEERYPJgZJDncDU",
+    mint: DEVNET_USDC_MINT,
+    swapMint: JUPITER_USDC_MINT,
     decimals: 6,
   },
 };
+
+export function getWalletMint(symbol: CanonicalSymbol): string {
+  return TOKENS[symbol].mint;
+}
+
+export function getSwapMint(symbol: CanonicalSymbol): string {
+  return TOKENS[symbol].swapMint;
+}
+
+/** Devnet faucet USDC cannot be quoted or swapped via Jupiter. */
+export function isSwapInputAllowed(
+  symbol: CanonicalSymbol,
+  cluster: string,
+): boolean {
+  return !(cluster === "devnet" && symbol === "USDC");
+}
+
+export function getDevnetSwapHint(): string {
+  return "Jupiter does not list devnet USDC. Use SOL as input for private swaps; shield devnet USDC separately.";
+}
 
 export function toBaseUnits(amount: string, decimals: number): bigint {
   const [whole, fraction = ""] = amount.split(".");
