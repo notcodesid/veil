@@ -5,9 +5,6 @@ import { useState } from "react";
 import { toast } from "sonner";
 import { ArrowRight, EyeOff, RefreshCw, Shield, Wallet } from "lucide-react";
 
-import { AuthStatus } from "@/components/wallet/auth-status";
-import { WalletStatus } from "@/components/wallet/wallet-status";
-
 const flows = [
   {
     icon: Shield,
@@ -181,10 +178,6 @@ export default function HomePage() {
                 Verify your wallet connection status and private ephemeral session.
               </p>
             </div>
-            <div className="mt-4 w-full space-y-2">
-              <WalletStatus />
-              <AuthStatus />
-            </div>
           </div>
 
           {/* Card 2: Shield */}
@@ -250,39 +243,13 @@ export default function HomePage() {
               Shield your tokens, swap privately, and enter the next generation of DeFi speed on Solana.
             </p>
 
-            {/* CTA Buttons & Socials */}
+            {/* CTA Buttons */}
             <div className="flex flex-wrap items-center justify-center gap-4 pt-4">
               <Link href="/trade">
                 <button className="h-12 px-8 bg-white text-black border-2 border-black shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] hover:bg-zinc-100 active:translate-y-px active:shadow-[1.5px_1.5px_0px_0px_rgba(0,0,0,1)] font-luckiest-guy text-base uppercase tracking-wider rounded-xl transition-all cursor-pointer">
                   Trade Now
                 </button>
               </Link>
-              
-              {/* X / Twitter */}
-              <a
-                href="https://x.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex size-12 items-center justify-center rounded-xl border-2 border-black bg-white shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] transition-transform hover:-translate-y-0.5 hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] active:translate-y-px active:shadow-[1.5px_1.5px_0px_0px_rgba(0,0,0,1)]"
-                title="X (Twitter)"
-              >
-                <svg className="size-5 text-black fill-current" viewBox="0 0 24 24">
-                  <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
-                </svg>
-              </a>
-
-              {/* Discord */}
-              <a
-                href="https://discord.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex size-12 items-center justify-center rounded-xl border-2 border-black bg-white shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] transition-transform hover:-translate-y-0.5 hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] active:translate-y-px active:shadow-[1.5px_1.5px_0px_0px_rgba(0,0,0,1)]"
-                title="Discord"
-              >
-                <svg className="size-5 text-black fill-current" viewBox="0 0 127.14 96.36">
-                  <path d="M107.7,8.07A105.15,105.15,0,0,0,77.26,0a77.19,77.19,0,0,0-3.3,6.83A96.67,96.67,0,0,0,52.88,6.83,77.19,77.19,0,0,0,49.58,0,105.15,105.15,0,0,0,19.14,8.07C3.12,32.06-1.25,55.52.38,78.56a107.4,107.4,0,0,0,32.07,16.29,80.3,80.3,0,0,0,6.83-11.13,68.91,68.91,0,0,1-10.84-5.23c.92-.67,1.82-1.37,2.69-2.09A76.54,76.54,0,0,0,95.78,76.5c.87.72,1.77,1.42,2.69,2.09a68.91,68.91,0,0,1-10.84,5.23,80.3,80.3,0,0,0,6.83,11.13,107.4,107.4,0,0,0,32.07-16.29C128.39,55.52,123.94,32.06,107.7,8.07ZM42.45,65.69C36.18,65.69,31,60,31,53S36.18,40.36,42.45,40.36,53.9,46,53.9,53,48.72,65.69,42.45,65.69Zm42.24,0C78.41,65.69,73.23,60,73.23,53S78.41,40.36,84.69,40.36,96.14,46,96.14,53,91,65.69,84.69,65.69Z"/>
-                </svg>
-              </a>
             </div>
           </div>
         </div>
