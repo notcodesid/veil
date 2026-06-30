@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Luckiest_Guy } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
 
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
@@ -53,6 +54,7 @@ export default function RootLayout({
             </BalancesProvider>
           </MagicBlockAuthProvider>
         </WalletProvider>
+        <Analytics />
       </body>
     </html>
   );
