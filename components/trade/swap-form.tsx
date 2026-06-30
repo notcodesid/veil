@@ -20,7 +20,11 @@ import { usePriceStream } from "@/hooks/use-price-stream";
 import { useVeilTx } from "@/hooks/use-veil-tx";
 import { parseAmountToNumber } from "@/lib/magicblock/amount";
 import { CLUSTER } from "@/lib/magicblock/config";
-import { buildPrivateSwap } from "@/lib/magicblock/swap";
+import {
+  buildPrivateSwap,
+  DEFAULT_SWAP_SLIPPAGE_BPS,
+  getSwapQuote,
+} from "@/lib/magicblock/swap";
 import { formatPercent } from "@/lib/format/display";
 import {
   TOKENS,
@@ -30,7 +34,7 @@ import {
   isSwapInputAllowed,
   toBaseUnits,
 } from "@/lib/constants/tokens";
-import { devnetTxUrl } from "@/lib/solana/explorer";
+import { txUrl } from "@/lib/solana/explorer";
 
 type SwapFormProps = {
   streamEnabled?: boolean;
@@ -60,6 +64,8 @@ export function SwapForm({ streamEnabled = true }: SwapFormProps) {
     }
   }, [amount, input.decimals]);
 
+  const SOL_FEE_RESERVE = 0.003;
+
   const {
     quote,
     rateLabel,
@@ -67,6 +73,7 @@ export function SwapForm({ streamEnabled = true }: SwapFormProps) {
     secondsAgo,
     isStale,
     isLoading,
+    slippageBps,
     error: quoteError,
     refresh: refreshQuote,
   } = usePriceStream({
@@ -103,9 +110,17 @@ export function SwapForm({ streamEnabled = true }: SwapFormProps) {
   }
 
   function handleMax() {
-    setAmount(
-      publicBalances[inputToken] === "0" ? "" : publicBalances[inputToken],
-    );
+    const balance = Number(publicBalances[inputToken]);
+    if (!Number.isFinite(balance) || balance <= 0) {
+      setAmount("");
+      return;
+    }
+    if (inputToken === "SOL") {
+      const max = Math.max(0, balance - SOL_FEE_RESERVE);
+      setAmount(max > 0 ? String(max) : "");
+      return;
+    }
+    setAmount(publicBalances[inputToken]);
   }
 
   async function handleSwap() {
@@ -113,16 +128,6 @@ export function SwapForm({ streamEnabled = true }: SwapFormProps) {
       toast.error("Connect your wallet first");
       return;
     }
-    if (!quote) {
-      toast.error("Waiting for a fresh quote");
-      return;
-    }
-    if (isStale) {
-      toast.error("Quote expired — refreshing");
-      await refreshQuote();
-      return;
-    }
-
     try {
       const baseUnits = parseAmountToNumber(amount, input.decimals);
       const walletUnits = toBaseUnits(publicBalances[inputToken], input.decimals);
@@ -131,9 +136,27 @@ export function SwapForm({ streamEnabled = true }: SwapFormProps) {
         return;
       }
 
+      if (inputToken === "SOL") {
+        const reserveUnits = toBaseUnits(String(SOL_FEE_RESERVE), TOKENS.SOL.decimals);
+        if (BigInt(baseUnits) > walletUnits - reserveUnits) {
+          toast.error(`Leave at least ${SOL_FEE_RESERVE} SOL for fees`, {
+            description: "Private swaps need extra SOL for Jupiter + network fees.",
+          });
+          return;
+        }
+      }
+
+      const freshQuote = await getSwapQuote({
+        inputMint: getSwapMint(inputToken),
+        outputMint: getSwapMint(outputToken),
+        amount: String(baseUnits),
+        slippageBps: DEFAULT_SWAP_SLIPPAGE_BPS,
+      });
+      void refreshQuote();
+
       const built = await buildPrivateSwap({
         userPublicKey: publicKey.toBase58(),
-        quoteResponse: quote,
+        quoteResponse: freshQuote,
       });
 
       const sig = await executeSwap(built.swapTransaction);
@@ -142,7 +165,7 @@ export function SwapForm({ streamEnabled = true }: SwapFormProps) {
         description: "Private execution — no public order flow",
         action: {
           label: "View",
-          onClick: () => window.open(devnetTxUrl(sig), "_blank"),
+          onClick: () => window.open(txUrl(sig), "_blank"),
         },
       });
 
@@ -153,6 +176,16 @@ export function SwapForm({ streamEnabled = true }: SwapFormProps) {
         err instanceof Error ? err.message : "Private swap failed";
       if (message.toLowerCase().includes("user rejected")) {
         toast.error("Transaction cancelled");
+        return;
+      }
+      if (
+        message.toLowerCase().includes("slippage") ||
+        message.toLowerCase().includes("0x1771")
+      ) {
+        toast.error("Price moved — try again", {
+          description:
+            "Quote was stale or volatility exceeded slippage. Use a smaller amount or retry.",
+        });
         return;
       }
       toast.error(message);
@@ -260,12 +293,20 @@ export function SwapForm({ streamEnabled = true }: SwapFormProps) {
             </span>
           </div>
           {quote ? (
-            <div className="mt-2 flex justify-between gap-4">
-              <span className="text-zinc-500">Price impact</span>
-              <span className="text-right text-black font-bold">
-                {formatPercent(quote.priceImpactPct)}
-              </span>
-            </div>
+            <>
+              <div className="mt-2 flex justify-between gap-4">
+                <span className="text-zinc-500">Price impact</span>
+                <span className="text-right text-black font-bold">
+                  {formatPercent(quote.priceImpactPct)}
+                </span>
+              </div>
+              <div className="mt-2 flex justify-between gap-4">
+                <span className="text-zinc-500">Max slippage</span>
+                <span className="text-right text-black font-bold">
+                  {(slippageBps / 100).toFixed(2)}%
+                </span>
+              </div>
+            </>
           ) : null}
           {secondsAgo !== null ? (
             <p className="mt-2 text-xs font-semibold text-zinc-400">
@@ -286,7 +327,6 @@ export function SwapForm({ streamEnabled = true }: SwapFormProps) {
             isPending ||
             !amount ||
             !quote ||
-            isStale ||
             !inputSwapAllowed
           }
         >

@@ -8,10 +8,14 @@ import {
   fromBaseUnits,
 } from "@/lib/constants/tokens";
 import { formatAmount } from "@/lib/format/display";
-import { getSwapQuote, type SwapQuote } from "@/lib/magicblock/swap";
+import {
+  DEFAULT_SWAP_SLIPPAGE_BPS,
+  getSwapQuote,
+  type SwapQuote,
+} from "@/lib/magicblock/swap";
 
 const POLL_MS = 2000;
-const STALE_MS = 10_000;
+const STALE_MS = 5_000;
 
 type UsePriceStreamArgs = {
   inputMint: string;
@@ -47,11 +51,11 @@ export function usePriceStream({
   const [isLoading, setIsLoading] = useState(false);
   const [now, setNow] = useState(() => Date.now());
 
-  const refresh = useCallback(async () => {
+  const refresh = useCallback(async (): Promise<SwapQuote | null> => {
     if (!amountBaseUnits || amountBaseUnits === "0") {
       setQuote(null);
       setError(null);
-      return;
+      return null;
     }
 
     setIsLoading(true);
@@ -60,13 +64,16 @@ export function usePriceStream({
         inputMint,
         outputMint,
         amount: amountBaseUnits,
+        slippageBps: DEFAULT_SWAP_SLIPPAGE_BPS,
       });
       setQuote(next);
       setLastUpdated(Date.now());
       setError(null);
+      return next;
     } catch (err) {
       setQuote(null);
       setError(err instanceof Error ? err.message : "Quote failed");
+      return null;
     } finally {
       setIsLoading(false);
     }
@@ -119,6 +126,7 @@ export function usePriceStream({
     error,
     estimatedOut,
     rateLabel,
+    slippageBps: DEFAULT_SWAP_SLIPPAGE_BPS,
     refresh,
   };
 }

@@ -1,5 +1,8 @@
 import { MAGICBLOCK_API } from "@/lib/magicblock/config";
 
+/** Private swaps need headroom — 0.5% is too tight once the wallet simulates. */
+export const DEFAULT_SWAP_SLIPPAGE_BPS = 100;
+
 function formatSwapApiError(status: number, detail: string, action: string): string {
   try {
     const body = JSON.parse(detail) as { error?: string; errorCode?: string };
@@ -35,7 +38,7 @@ export async function getSwapQuote(args: {
     inputMint: args.inputMint,
     outputMint: args.outputMint,
     amount: args.amount,
-    slippageBps: String(args.slippageBps ?? 50),
+    slippageBps: String(args.slippageBps ?? DEFAULT_SWAP_SLIPPAGE_BPS),
   });
   const res = await fetch(`${MAGICBLOCK_API}/v1/swap/quote?${params}`);
   if (!res.ok) {

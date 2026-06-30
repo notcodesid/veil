@@ -19,7 +19,7 @@ type ConnectPromptProps = {
 
 export function ConnectPrompt({
   title = "Connect your wallet",
-  description = "Connect a devnet wallet to shield, swap, and unshield privately.",
+  description = "Connect your wallet to shield, swap, and unshield privately.",
 }: ConnectPromptProps) {
   const { connected } = useWallet();
 

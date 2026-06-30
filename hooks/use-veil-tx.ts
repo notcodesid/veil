@@ -2,16 +2,22 @@
 
 import { useCallback, useState } from "react";
 import { useWallet } from "@solana/wallet-adapter-react";
-import { Connection, VersionedTransaction } from "@solana/web3.js";
+import { VersionedTransaction } from "@solana/web3.js";
 
 import { getStoredToken } from "@/lib/magicblock/auth";
-import {
-  decodeTransaction,
-  getRpcUrl,
-  sendAndConfirm,
-} from "@/lib/magicblock/tx";
-import { getBaseConnection } from "@/lib/solana/connection";
+import { decodeTransaction } from "@/lib/magicblock/tx";
+import { sendSignedTransaction } from "@/lib/solana/send-transaction";
 import { persistLastTxSig } from "@/lib/veil/session";
+
+function serializeSigned(
+  signed: ReturnType<typeof decodeTransaction>,
+): string {
+  const raw =
+    signed instanceof VersionedTransaction
+      ? signed.serialize()
+      : signed.serialize();
+  return Buffer.from(raw).toString("base64");
+}
 
 export function useVeilTx() {
   const wallet = useWallet();
@@ -35,9 +41,11 @@ export function useVeilTx() {
       try {
         const tx = decodeTransaction(transactionBase64, version);
         const signed = await wallet.signTransaction(tx);
-        const rpc = getRpcUrl(sendTo, getStoredToken());
-        const connection = new Connection(rpc, "confirmed");
-        const sig = await sendAndConfirm(connection, signed);
+        const sig = await sendSignedTransaction({
+          transactionBase64: serializeSigned(signed),
+          sendTo,
+          authToken: getStoredToken(),
+        });
         setLastSig(sig);
         persistLastTxSig(sig);
         return sig;
@@ -66,8 +74,10 @@ export function useVeilTx() {
         const bytes = Buffer.from(swapTransactionBase64, "base64");
         const tx = VersionedTransaction.deserialize(bytes);
         const signed = await wallet.signTransaction(tx);
-        const connection = getBaseConnection();
-        const sig = await sendAndConfirm(connection, signed);
+        const sig = await sendSignedTransaction({
+          transactionBase64: serializeSigned(signed),
+          sendTo: "base",
+        });
         setLastSig(sig);
         persistLastTxSig(sig);
         return sig;

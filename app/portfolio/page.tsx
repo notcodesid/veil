@@ -17,7 +17,8 @@ import {
 } from "@/components/ui/card";
 import { usePrivateBalances } from "@/hooks/use-private-balances";
 import { getLastTxSig, VEIL_BALANCES_EVENT } from "@/lib/veil/session";
-import { devnetTxUrl } from "@/lib/solana/explorer";
+import { clusterLabel } from "@/lib/magicblock/config";
+import { txUrl } from "@/lib/solana/explorer";
 import { truncateAddress } from "@/lib/solana/format";
 
 function subscribeLastTx(callback: () => void) {
@@ -69,7 +70,7 @@ export default function PortfolioPage() {
           <CardHeader>
             <CardTitle className="font-luckiest-guy text-xl sm:text-2xl uppercase tracking-wider">Connect wallet</CardTitle>
             <CardDescription>
-              Connect your devnet wallet to view private balances.
+              Connect your wallet to view private balances.
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -103,7 +104,7 @@ export default function PortfolioPage() {
       {connected && isAuthenticated ? (
         <>
           <div className="bg-white border-2 border-black px-3 py-1.5 rounded-full text-black font-luckiest-guy uppercase text-xs shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] max-w-fit hover:-rotate-1 active:translate-y-px transition-all">
-            Devnet · {publicKey ? truncateAddress(publicKey, 6) : ""}
+            {clusterLabel()} · {publicKey ? truncateAddress(publicKey, 6) : ""}
           </div>
           <ShieldedBalances />
         </>
@@ -123,7 +124,7 @@ export default function PortfolioPage() {
               type="button"
               size="sm"
               variant="outline"
-              onClick={() => window.open(devnetTxUrl(lastTxSig), "_blank")}
+              onClick={() => window.open(txUrl(lastTxSig), "_blank")}
             >
               <ExternalLink className="mr-2 size-3.5" />
               Solscan

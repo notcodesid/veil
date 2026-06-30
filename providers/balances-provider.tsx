@@ -21,6 +21,7 @@ import {
   getPrivateTokenBalance,
   getPublicTokenBalance,
 } from "@/lib/magicblock/balance";
+import { getNativeSolLamports } from "@/lib/solana/balance";
 import { VEIL_BALANCES_EVENT } from "@/lib/veil/session";
 
 const EMPTY: Record<CanonicalSymbol, string> = { SOL: "0", USDC: "0" };
@@ -69,24 +70,45 @@ export function BalancesProvider({ children }: { children: React.ReactNode }) {
         setIsLoading(true);
         setError(null);
 
+        const owner = publicKey.toBase58();
+        const errors: string[] = [];
+        let solLamports = "0";
+        let usdcPublic = "0";
+
         try {
-          const owner = publicKey.toBase58();
-          const [solPublic, usdcPublic] = await Promise.all([
-            getPublicTokenBalance(owner, TOKENS.SOL.mint),
-            getPublicTokenBalance(owner, TOKENS.USDC.mint),
-          ]);
+          solLamports = await getNativeSolLamports(owner);
+        } catch (err) {
+          errors.push(
+            err instanceof Error ? err.message : "Failed to load SOL balance",
+          );
+        }
 
-          setPublicBalances({
-            SOL: fromBaseUnits(solPublic, TOKENS.SOL.decimals),
-            USDC: fromBaseUnits(usdcPublic, TOKENS.USDC.decimals),
-          });
+        try {
+          usdcPublic = await getPublicTokenBalance(owner, TOKENS.USDC.mint);
+        } catch (err) {
+          errors.push(
+            err instanceof Error ? err.message : "Failed to load USDC balance",
+          );
+        }
 
-          if (!token || !isAuthenticated) {
-            setPrivateBalances(EMPTY);
-            lastFetchedAt.current = Date.now();
-            return;
-          }
+        setPublicBalances({
+          SOL: fromBaseUnits(solLamports, TOKENS.SOL.decimals),
+          USDC: fromBaseUnits(usdcPublic, TOKENS.USDC.decimals),
+        });
 
+        if (errors.length > 0) {
+          setError(errors.join(" · "));
+        }
+
+        if (!token || !isAuthenticated) {
+          setPrivateBalances(EMPTY);
+          lastFetchedAt.current = Date.now();
+          setIsLoading(false);
+          inflight.current = null;
+          return;
+        }
+
+        try {
           const [solPrivate, usdcPrivate] = await Promise.all([
             getPrivateTokenBalance({
               address: owner,
@@ -107,8 +129,8 @@ export function BalancesProvider({ children }: { children: React.ReactNode }) {
           lastFetchedAt.current = Date.now();
         } catch (err) {
           const message =
-            err instanceof Error ? err.message : "Failed to load balances";
-          setError(message);
+            err instanceof Error ? err.message : "Failed to load shielded balances";
+          setError((prev) => (prev ? `${prev} · ${message}` : message));
         } finally {
           setIsLoading(false);
           inflight.current = null;

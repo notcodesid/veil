@@ -41,10 +41,10 @@ export default function TermsPage() {
 
           <div className="space-y-2">
             <h2 className="font-luckiest-guy text-xl text-black uppercase tracking-wider">
-              2. Devnet &amp; Experimental Software
+              2. Mainnet &amp; Financial Risk
             </h2>
             <p>
-              The Veil platform currently runs on the Solana Devnet. All services, smart contracts, and cryptographic protocols are experimental. Use of the devnet entails risks of software bugs, protocol upgrades, state resets, and transactional instability. You should not use production keys or real mainnet funds with these services.
+              Veil operates on Solana mainnet and interacts with third-party protocols including MagicBlock and Jupiter. Transactions use real funds and are irreversible. Smart contracts and rollup infrastructure may contain bugs or fail under stress. Only use funds you can afford to lose.
             </p>
           </div>
 

@@ -24,7 +24,7 @@ import {
   type CanonicalSymbol,
   toBaseUnits,
 } from "@/lib/constants/tokens";
-import { devnetTxUrl } from "@/lib/solana/explorer";
+import { txUrl } from "@/lib/solana/explorer";
 
 export function UnshieldForm() {
   const { connected, publicKey } = useWallet();
@@ -74,7 +74,7 @@ export function UnshieldForm() {
         description: "Tokens settled back to your Solana wallet",
         action: {
           label: "View",
-          onClick: () => window.open(devnetTxUrl(sig), "_blank"),
+          onClick: () => window.open(txUrl(sig), "_blank"),
         },
       });
 

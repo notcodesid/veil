@@ -1,18 +1,20 @@
+import { IS_DEVNET } from "@/lib/magicblock/config";
+
 export type CanonicalSymbol = "SOL" | "USDC";
 
-/** Circle devnet faucet USDC — shield/deposit only, not Jupiter-tradable. */
+/** Circle devnet faucet USDC — devnet shield/deposit only. */
 export const DEVNET_USDC_MINT =
   "4zMMC9srt5Ri5X14GAgXhaHii3GnPAEERYPJgZJDncDU";
 
-/** Mainnet USDC — used by MagicBlock `/v1/swap/*` (Jupiter routes). */
-export const JUPITER_USDC_MINT =
+/** Mainnet USDC — shield, swap, and Jupiter routes. */
+export const MAINNET_USDC_MINT =
   "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v";
+
+const USDC_MINT = IS_DEVNET ? DEVNET_USDC_MINT : MAINNET_USDC_MINT;
 
 export type CanonicalToken = {
   symbol: CanonicalSymbol;
-  /** Wallet + shield mint on the active cluster (devnet USDC for deposits). */
   mint: string;
-  /** Mint passed to Jupiter quote/swap APIs. */
   swapMint: string;
   decimals: number;
 };
@@ -26,8 +28,8 @@ export const TOKENS: Record<CanonicalSymbol, CanonicalToken> = {
   },
   USDC: {
     symbol: "USDC",
-    mint: DEVNET_USDC_MINT,
-    swapMint: JUPITER_USDC_MINT,
+    mint: USDC_MINT,
+    swapMint: IS_DEVNET ? MAINNET_USDC_MINT : USDC_MINT,
     decimals: 6,
   },
 };

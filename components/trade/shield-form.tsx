@@ -24,7 +24,7 @@ import {
   type CanonicalSymbol,
   toBaseUnits,
 } from "@/lib/constants/tokens";
-import { devnetTxUrl } from "@/lib/solana/explorer";
+import { txUrl } from "@/lib/solana/explorer";
 
 export function ShieldForm() {
   const { connected, publicKey } = useWallet();
@@ -70,7 +70,7 @@ export function ShieldForm() {
         description: "Tokens moved into the Private ER",
         action: {
           label: "View",
-          onClick: () => window.open(devnetTxUrl(sig), "_blank"),
+          onClick: () => window.open(txUrl(sig), "_blank"),
         },
       });
 

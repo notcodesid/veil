@@ -38,7 +38,7 @@ export default function HomePage() {
         {/* Content Container */}
         <div className="relative z-10 space-y-4 max-w-3xl mx-auto">
           <p className="font-luckiest-guy text-xs sm:text-sm uppercase tracking-[0.25em] text-yellow-300 drop-shadow-[1.5px_1.5px_0px_rgba(0,0,0,1)]">
-            Private DEX · Devnet
+            Private DEX · Mainnet
           </p>
           <h1 className="font-luckiest-guy text-4xl sm:text-6xl md:text-7xl tracking-wider text-white uppercase drop-shadow-[4px_4px_0px_rgba(0,0,0,1)] select-none leading-none">
             Trade Privately on Solana
