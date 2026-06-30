@@ -6,7 +6,6 @@ Generated via [solana.new](https://www.solana.new/) scaffold workflow.
 
 - **Name:** Veil
 - **Type:** Private DEX (frontend-only MVP)
-- **Hackathon:** Solana Blitz v5 — trading theme
 - **Tagline:** Trade privately, settle publicly.
 
 ## Stack
@@ -37,7 +36,7 @@ Integrate-first (no custom Anchor program):
 | Scaffold | `scaffold-project` |
 | Build | `build-with-claude` |
 | UI | `frontend-design-guidelines`, `brand-design`, `number-formatting` |
-| Launch | `submit-to-hackathon` |
+| Launch | `deploy-to-mainnet` |
 
 ## build_status
 
@@ -98,4 +97,4 @@ Integrate-first (no custom Anchor program):
 
 ## Next step
 
-**Phase 2:** Wire Solana Wallet Adapter in `providers/wallet-provider.tsx`.
+**Phase 9:** Deploy to production and verify mainnet flows.

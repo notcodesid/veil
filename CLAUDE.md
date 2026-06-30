@@ -24,7 +24,7 @@ Copy `.env.example` → `.env.local`. All vars are `NEXT_PUBLIC_*`.
 
 ## Build phases
 
-See gitignored `docs/STEPS.md`. Phase 8 complete. Next: deploy + demo (Phase 9).
+See gitignored `docs/STEPS.md`. Phase 8 complete. Next: deploy (Phase 9).
 
 ## Rules
 

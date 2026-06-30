@@ -4,8 +4,6 @@
 
 Veil is a private DEX frontend built on [MagicBlock](https://www.magicblock.xyz/) Private Ephemeral Rollups (PER). Shield SPL tokens into a private rollup, stream live swap quotes, execute with private visibility, and unshield back to Solana L1.
 
-Built for [Solana Blitz v5](https://hackathon.magicblock.app/).
-
 ## Features
 
 - **Shield** — deposit SOL or USDC from your wallet into a Private ER
@@ -101,7 +99,7 @@ NEXT_PUBLIC_TEE_RPC=https://devnet-tee.magicblock.app
 
 Use a dedicated devnet RPC (e.g. Helius) if you hit public RPC rate limits.
 
-### Demo wallet setup
+### Devnet wallet setup
 
 1. Set Phantom to **Devnet**
 2. Airdrop SOL on devnet
@@ -112,14 +110,13 @@ Use a dedicated devnet RPC (e.g. Helius) if you hit public RPC rate limits.
 
 ## Status
 
-MVP complete on devnet — shield, quotes, unshield, and portfolio are wired. Demo-ready; mainnet swap execution is the next step for a full production story.
+MVP wired on devnet — shield, quotes, unshield, and portfolio are implemented. Mainnet deployment and swap execution verification are next.
 
 ## Links
 
 - [MagicBlock docs](https://docs.magicblock.gg)
 - [Private Payments API](https://docs.magicblock.gg/pages/private-ephemeral-rollups-pers/api-reference/per/introduction)
-- [Private payments demo](https://one.magicblock.app/)
-- [Hackathon](https://hackathon.magicblock.app/)
+- [MagicBlock reference app](https://one.magicblock.app/)
 
 ## License
 
