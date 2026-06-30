@@ -21,6 +21,43 @@ Veil is a private DEX on Solana. Shield your tokens, swap with hidden order flow
 4. **Swap** between SOL and USDC
 5. **Unshield** when you want funds back in your wallet
 
+## Architecture
+
+Veil is a frontend on [MagicBlock](https://www.magicblock.xyz/) Private Ephemeral Rollups. Your wallet signs transactions; MagicBlock builds and routes them between Solana L1 and a private rollup (PER).
+
+```mermaid
+flowchart TB
+  subgraph you [You]
+    Wallet[Solana Wallet]
+  end
+
+  subgraph veil [Veil]
+    App[Web App]
+  end
+
+  subgraph magicblock [MagicBlock]
+    API[Private Payments API]
+    PER[Private Ephemeral Rollup]
+    API --> PER
+  end
+
+  subgraph solana [Solana]
+    L1[Mainnet L1]
+  end
+
+  Wallet -->|sign| App
+  App -->|shield · swap · unshield| API
+  API -->|deposit / swap| PER
+  API -->|settle| L1
+  PER -->|unshield| L1
+```
+
+| Step | What happens |
+|------|----------------|
+| **Shield** | Tokens move from your wallet into the private rollup |
+| **Swap** | Trade executes privately inside the rollup — no public order flow |
+| **Unshield** | Tokens settle back to your Solana wallet on L1 |
+
 ## Before you trade
 
 - Use a **mainnet** wallet with real SOL (and USDC if shielding USDC)
